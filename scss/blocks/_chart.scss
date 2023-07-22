@@ -1,0 +1,36 @@
+.chart {
+  background-color:#e7e9eb;
+}
+
+table, th, td {
+  border: 1px solid #fff;
+}
+
+.chart__head th {
+  max-width: 150px;
+  padding: 10px 5px;
+  font-size: 12px;
+  text-align: center;
+
+}
+
+.chart__body th {
+  padding: 10px 5px;
+}
+
+.chart__body td {
+  padding: 0 10px;
+  text-align: center;
+}
+
+.chart__row {
+  &:hover, &:active, &:focus {
+    background-color: darken(#e7e9eb, 20%);
+    outline: none;
+  }
+}
+
+.chart__dia--inactive {
+  display: none;
+}
+
