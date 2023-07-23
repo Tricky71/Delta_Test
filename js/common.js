@@ -1,120 +1,99 @@
-document.addEventListener('DOMContentLoaded', function () {
+'use strict'; 
 
-  const mockData = [{
-        name: 'Выручка',
-        data: [50934, 49000, 51165, 45827]
-    }, {
-        name: 'Наличные',
-        data: [25934, 24500, 25000, 25827]
-    }, {
-        name: 'Безналичный расчет',
-        data: [12000, 12000, 13000, 10500]
-    }, {
-        name: 'Кред. карты',
-        data: [13000, 12500, 13165, 9500]
-    }, {
-        name: 'Средний чек, руб',
-        data: [980, 990, 1005, 950]
-    }, {
-        name: 'Средний гость, руб',
-        data: [980, 990, 1005, 950]
-    }, {
-        name: 'Количество чеков',
-        data: [52, 51, 49, 48]
-    }, {
-        name: 'Количество гостей',
-        data: [52, 51, 49, 48]
-    }];
+const tableBody = document.querySelector('tbody');
 
-   const tableBody = document.querySelector('tbody');
+const createTableCells = (el, i) => {
+  return (
+    `<tr class="chart__row" tabindex= "1">
+      <th>${el.name}</th>
+      <td>${el.data[0]}</td>
+      <td>${el.data[1]}</td>
+      <td>${el.data[2]}</td>
+      <td>${el.data[3]}</td>
+    </tr>
+    <tr>
+      <td colspan = "10"  style="padding: 0">
+        <div id="container--${i}" class="chart__dia" style="width:100%; height:300px"></div>
+      </td>
+    </tr>  
+    `
+  );
+};
 
-   const createTableCells = (el, i) => {
-      return (
-        `<tr class="chart__row" tabindex= "1">
-          <th>${el.name}</th>
-          <td>${el.data[0]}</td>
-          <td>${el.data[1]}</td>
-          <td>${el.data[2]}</td>
-          <td>${el.data[3]}</td>
-        </tr>
-        <tr>
-          <td colspan = "10"  style="padding: 0">
-            <div id="container--${i}" class="chart__dia" style="width:100%; height:300px"></div>
-          </td>
-        </tr>  
-        `
-      );
-    };
+const render = (container, template, place = "beforeend") => {
+  container.insertAdjacentHTML(place, template);
+};
 
-    const render = (container, template, place = "beforeend") => {
-      container.insertAdjacentHTML(place, template);
-    };
+(async () => {
+  const obj = await fetch('js/data.json');
+  const result = await obj.json();
 
-    mockData.forEach((e, i) => {
-      render(tableBody, createTableCells(e, i));
-      
-    });
+  const mockData = JSON.parse(JSON.stringify(result));
 
-    mockData.forEach((e, i) => {
-      Highcharts.chart(`container--${i}`, {
+  mockData.forEach((e, i) => {
+    render(tableBody, createTableCells(e, i));
+  });
 
-      title: {
-          text: '',
-          align: 'left'
-      },
+  mockData.forEach((e, i) => {
+    Highcharts.chart(`container--${i}`, {
 
-      subtitle: {
-          text: '',
-          align: 'left'
-      },
+    title: {
+        text: '',
+        align: 'left'
+    },
 
-      yAxis: {
-          title: {
-              text: ''
-          }
-      },
+    subtitle: {
+        text: '',
+        align: 'left'
+    },
 
-      xAxis: {
-          accessibility: {
-              rangeDescription: ''
-          }
-      },
+    yAxis: {
+        title: {
+            text: ''
+        }
+    },
 
-      legend: {
-          layout: 'vertical',
-          align: 'right',
-          verticalAlign: 'middle'
-      },
+    xAxis: {
+        accessibility: {
+            rangeDescription: ''
+        }
+    },
 
-      plotOptions: {  
-          series: {
-              label: {
-                  connectorAllowed: false
-              },
-          }
-      },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
 
-      series: [mockData[i]],
-      responsive: {
-          rules: [{
-              condition: {
-                  maxWidth: 500
-              },
-              chartOptions: {
-                  legend: {
-                      layout: 'horizontal',
-                      align: 'center',
-                      verticalAlign: 'bottom'
-                  }
-              }
-          }]
+    plotOptions: {  
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+        }
+    },
+
+    series: [mockData[i]],
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
       }
     })
   });
 
   const rows = document.querySelectorAll('.chart__row'),
-        dias = document.querySelectorAll('.chart__dia'),
-        chart = document.querySelector('.chart__body');
+      dias = document.querySelectorAll('.chart__dia'),
+      chart = document.querySelector('.chart__body');
 
   const hideDiasContent = () => {
     dias.forEach((e) => {
@@ -123,11 +102,11 @@ document.addEventListener('DOMContentLoaded', function () {
   };  
 
   const showDiaContent = (i) => {
-    dias[i].style.display = 'block';
+  dias[i].style.display = 'block';
   };
 
   hideDiasContent();
-  
+
   rows.forEach((e, i) => {
     e.addEventListener('click', () => {
       hideDiasContent();
@@ -150,13 +129,20 @@ document.addEventListener('DOMContentLoaded', function () {
       console.log(target);
       rows.forEach((e, i) => {
         if (target == e) {
-           
           hideDiasContent();
           showDiaContent(i);
         }
       })
     }
-  });   
-})    
+  });
+})();
+
+    
+
+  
+
+     
+
+  
 
 
