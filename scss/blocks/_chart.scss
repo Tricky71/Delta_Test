@@ -7,11 +7,12 @@ table, th, td {
 }
 
 .chart__head th {
-  max-width: 150px;
+  width: 180px;
   padding: 10px 5px;
   font-size: 12px;
   text-align: center;
-
+  background-color: #0d8042;
+  color:#fff;
 }
 
 .chart__body th {
@@ -19,6 +20,7 @@ table, th, td {
 }
 
 .chart__body td {
+  min-width: 50px;
   padding: 0 10px;
   text-align: center;
 }
